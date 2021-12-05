@@ -12,39 +12,39 @@ public:
     virtual bool init();
     CREATE_FUNC(HelloWorld);
 
-	//Проверка свободны ли окресности точки для высадки цветов, появления и роста змей
+	//РџСЂРѕРІРµСЂРєР° СЃРІРѕР±РѕРґРЅС‹ Р»Рё РѕРєСЂРµСЃРЅРѕСЃС‚Рё С‚РѕС‡РєРё РґР»СЏ РІС‹СЃР°РґРєРё С†РІРµС‚РѕРІ, РїРѕСЏРІР»РµРЅРёСЏ Рё СЂРѕСЃС‚Р° Р·РјРµР№
 	bool HelloWorld::FreeSpace(std::vector<Vector<Sprite*>> SnakesSprites, Vector <Sprite*> SeedSprites, int x, int y);
-	//Посадка цветка
+	//РџРѕСЃР°РґРєР° С†РІРµС‚РєР°
 	void HelloWorld::FlowerSpawn(Vector <Sprite*>& SeedSprites, int x, int y);
-	//Появление змеи
+	//РџРѕСЏРІР»РµРЅРёРµ Р·РјРµРё
 	void HelloWorld::SnakeSpawn(std::vector<Vector<Sprite*>>& SnakesSprites, Vector <Sprite*> SeedSprites);
-	//Рост змеи
+	//Р РѕСЃС‚ Р·РјРµРё
 	void HelloWorld::SnakeGrow(std::vector<Vector<Sprite*>>& SnakesSprites, Vector <Sprite*> SeedSprites, int SnakeNumber);
-	//Проверка свободны ли окресности точки от змей (но не цветов) - для перемещения змей
+	//РџСЂРѕРІРµСЂРєР° СЃРІРѕР±РѕРґРЅС‹ Р»Рё РѕРєСЂРµСЃРЅРѕСЃС‚Рё С‚РѕС‡РєРё РѕС‚ Р·РјРµР№ (РЅРѕ РЅРµ С†РІРµС‚РѕРІ) - РґР»СЏ РїРµСЂРµРјРµС‰РµРЅРёСЏ Р·РјРµР№
 	bool HelloWorld::NotSoFreeSpace(std::vector<Vector<Sprite*>> SnakesSprites, Vector <Sprite*> SeedSprites, int x, int y);
-	//Перемещение змей
+	//РџРµСЂРµРјРµС‰РµРЅРёРµ Р·РјРµР№
 	void HelloWorld::SnakeMove(std::vector<Vector<Sprite*>>& SnakesSprites, Vector <Sprite*>& SeedSprites, int SnakeNumber, float MoveTime);
-	//Удвоение скорости змей при поедании цветка. Так же проверка на проигрыш
+	//РЈРґРІРѕРµРЅРёРµ СЃРєРѕСЂРѕСЃС‚Рё Р·РјРµР№ РїСЂРё РїРѕРµРґР°РЅРёРё С†РІРµС‚РєР°. РўР°Рє Р¶Рµ РїСЂРѕРІРµСЂРєР° РЅР° РїСЂРѕРёРіСЂС‹С€
 	void HelloWorld::DoubleSpeed();
-	//Возврат к обычной скорости
+	//Р’РѕР·РІСЂР°С‚ Рє РѕР±С‹С‡РЅРѕР№ СЃРєРѕСЂРѕСЃС‚Рё
 	void HelloWorld::NormalSpeed(int Time);
-	//Проверка прищёлся ли щелчёк левой кнопкой на змею
+	//РџСЂРѕРІРµСЂРєР° РїСЂРёС‰С‘Р»СЃСЏ Р»Рё С‰РµР»С‡С‘Рє Р»РµРІРѕР№ РєРЅРѕРїРєРѕР№ РЅР° Р·РјРµСЋ
 	int HelloWorld::SnakeClick(std::vector<Vector<Sprite*>> SnakesSprites, int x, int y);
-	//Таймер для перемещения змей
+	//РўР°Р№РјРµСЂ РґР»СЏ РїРµСЂРµРјРµС‰РµРЅРёСЏ Р·РјРµР№
 	void TimerOne(int Time);
-	//Таймер для роста змей и получения денег от цветков
+	//РўР°Р№РјРµСЂ РґР»СЏ СЂРѕСЃС‚Р° Р·РјРµР№ Рё РїРѕР»СѓС‡РµРЅРёСЏ РґРµРЅРµРі РѕС‚ С†РІРµС‚РєРѕРІ
 	void TimerThree(int Time);
-	//Таймер появления змей
+	//РўР°Р№РјРµСЂ РїРѕСЏРІР»РµРЅРёСЏ Р·РјРµР№
 	void TimerSnakeSpawn(int Time);
-	//Таймер ускорения появления змей
+	//РўР°Р№РјРµСЂ СѓСЃРєРѕСЂРµРЅРёСЏ РїРѕСЏРІР»РµРЅРёСЏ Р·РјРµР№
 	void TimerTen(int Time);
-	//Вектор всех цветов
+	//Р’РµРєС‚РѕСЂ РІСЃРµС… С†РІРµС‚РѕРІ
 	Vector <Sprite*> SeedSprites;
-	//Вектор змей. Каждая змея - вектор содержащий свои сегменты
+	//Р’РµРєС‚РѕСЂ Р·РјРµР№. РљР°Р¶РґР°СЏ Р·РјРµСЏ - РІРµРєС‚РѕСЂ СЃРѕРґРµСЂР¶Р°С‰РёР№ СЃРІРѕРё СЃРµРіРјРµРЅС‚С‹
 	std::vector<Vector<Sprite*> > SnakesSprites;
-	//Вывод текущих деньг
+	//Р’С‹РІРѕРґ С‚РµРєСѓС‰РёС… РґРµРЅСЊРі
 	Label* CoinsLabel = Label::createWithSystemFont("Coins: 150", "Arial", 24);
-	//Приветствие
+	//РџСЂРёРІРµС‚СЃС‚РІРёРµ
 	Label* HelloLabel = Label::createWithSystemFont("To start the game - plant a flower \nin any place of screen by right-clicking \nTo figth snakes - left-clicking it", "Arial", 32);
 };
 

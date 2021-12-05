@@ -20,13 +20,13 @@ static void problemLoading(const char* filename)
     printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
 
-const int CageSize = 40;	//Размер "клетки" для одного цветка или сегмента змеи
+const int CageSize = 40;	//Р Р°Р·РјРµСЂ "РєР»РµС‚РєРё" РґР»СЏ РѕРґРЅРѕРіРѕ С†РІРµС‚РєР° РёР»Рё СЃРµРіРјРµРЅС‚Р° Р·РјРµРё
 
 int CageHeigth;
-int CageWidth;				//Размер экрана в клетках
+int CageWidth;				//Р Р°Р·РјРµСЂ СЌРєСЂР°РЅР° РІ РєР»РµС‚РєР°С…
 
 const int StartMoney = 150; 
-const int SeedPrice = 50;	//Денежные константы
+const int SeedPrice = 50;	//Р”РµРЅРµР¶РЅС‹Рµ РєРѕРЅСЃС‚Р°РЅС‚С‹
 
 int Coins = StartMoney;
 
@@ -48,8 +48,8 @@ bool HelloWorld::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	CageHeigth = visibleSize.height / CageSize;	//Высота экрана в клетках
-	CageWidth = visibleSize.width / CageSize;	//Ширина
+	CageHeigth = visibleSize.height / CageSize;	//Р’С‹СЃРѕС‚Р° СЌРєСЂР°РЅР° РІ РєР»РµС‚РєР°С…
+	CageWidth = visibleSize.width / CageSize;	//РЁРёСЂРёРЅР°
 
 
 
@@ -63,7 +63,7 @@ bool HelloWorld::init()
 	HelloLabel->setPosition(visibleSize.width / 2, visibleSize.height / 2);
 	this->addChild(HelloLabel, 1);
 
-	listener->onMouseDown = [&](Event* event)		//Нажатие мыши
+	listener->onMouseDown = [&](Event* event)		//РќР°Р¶Р°С‚РёРµ РјС‹С€Рё
 	{
 
 
@@ -71,14 +71,14 @@ bool HelloWorld::init()
 
 
 		int k = static_cast<int>(mouseEvent->getMouseButton());
-		if ((k == 1) && (Coins >= SeedPrice))							//Правая кнопка мыши - посадка цветка
+		if ((k == 1) && (Coins >= SeedPrice))							//РџСЂР°РІР°СЏ РєРЅРѕРїРєР° РјС‹С€Рё - РїРѕСЃР°РґРєР° С†РІРµС‚РєР°
 		{	
 			if(FreeSpace(SnakesSprites, SeedSprites, mouseEvent->getCursorX(), mouseEvent->getCursorY()))
 			{ 
 				FlowerSpawn(SeedSprites, mouseEvent->getCursorX(), mouseEvent->getCursorY());
 				Coins -= SeedPrice;
 				CoinsLabel->setString("Coins: " + std::to_string(Coins));
-				if (GameNotStartedFlag)									//Начало игры, запуск таймеров, убирание приветствия
+				if (GameNotStartedFlag)									//РќР°С‡Р°Р»Рѕ РёРіСЂС‹, Р·Р°РїСѓСЃРє С‚Р°Р№РјРµСЂРѕРІ, СѓР±РёСЂР°РЅРёРµ РїСЂРёРІРµС‚СЃС‚РІРёСЏ
 				{
 					GameNotStartedFlag = false;	
 					SnakeSpawn(SnakesSprites, SeedSprites);
@@ -97,7 +97,7 @@ bool HelloWorld::init()
 			{
 				removeChild(SnakesSprites.at(SnakeC).back());
 				SnakesSprites.at(SnakeC).popBack();
-				if (SnakesSprites.at(SnakeC).empty())
+				if (SnakesSprites.at(SnakeC).size() == 1)
 					SnakesSprites.erase(std::next(SnakesSprites.begin(), SnakeC));
 			}
 		}
@@ -121,14 +121,14 @@ bool HelloWorld::FreeSpace(std::vector<Vector<Sprite*>> SnakesSprites, Vector <S
 	int yS;
 	int i;
 	int j;
-	for (i = 0; i < SeedSprites.size(); i++)		//Должно не дать создать цветок или змею поверх другого цветка
+	for (i = 0; i < SeedSprites.size(); i++)		//Р”РѕР»Р¶РЅРѕ РЅРµ РґР°С‚СЊ СЃРѕР·РґР°С‚СЊ С†РІРµС‚РѕРє РёР»Рё Р·РјРµСЋ РїРѕРІРµСЂС… РґСЂСѓРіРѕРіРѕ С†РІРµС‚РєР°
 	{
 		xS = SeedSprites.at(i)->getPositionX();
-		yS = SeedSprites.at(i)->getPositionY();		//Промежуточные переменные можно получить под if, но тогда код сложночитабелен 
+		yS = SeedSprites.at(i)->getPositionY();		//РџСЂРѕРјРµР¶СѓС‚РѕС‡РЅС‹Рµ РїРµСЂРµРјРµРЅРЅС‹Рµ РјРѕР¶РЅРѕ РїРѕР»СѓС‡РёС‚СЊ РїРѕРґ if, РЅРѕ С‚РѕРіРґР° РєРѕРґ СЃР»РѕР¶РЅРѕС‡РёС‚Р°Р±РµР»РµРЅ 
 		if ((abs(x - xS) < CageSize - 10) && (abs(y - yS) < CageSize -10))
 			return(false);
 	}
-	for (i = 0; i < SnakesSprites.size(); i++)		//Должно не дать создать цветок или змею поверх другоой змеи
+	for (i = 0; i < SnakesSprites.size(); i++)		//Р”РѕР»Р¶РЅРѕ РЅРµ РґР°С‚СЊ СЃРѕР·РґР°С‚СЊ С†РІРµС‚РѕРє РёР»Рё Р·РјРµСЋ РїРѕРІРµСЂС… РґСЂСѓРіРѕРѕР№ Р·РјРµРё
 	{
 		for (j = 0; j < SnakesSprites.at(i).size(); j++){
 			xS = SnakesSprites.at(i).at(j)->getPositionX();
@@ -142,9 +142,9 @@ bool HelloWorld::FreeSpace(std::vector<Vector<Sprite*>> SnakesSprites, Vector <S
 
 void HelloWorld::FlowerSpawn(Vector <Sprite*>& SeedSprites, int x, int y)
 {
-	auto SeedSprite = Sprite::create("678141.png");			//Создание цветка 
+	auto SeedSprite = Sprite::create("678141.png");			//РЎРѕР·РґР°РЅРёРµ С†РІРµС‚РєР° 
 	if (SeedSprite == nullptr) { problemLoading("'678141.png'"); }
-	int x1 = x / CageSize;									//Смещение сажаемого ростка в центр "клетки". В два этапа для округления
+	int x1 = x / CageSize;									//РЎРјРµС‰РµРЅРёРµ СЃР°Р¶Р°РµРјРѕРіРѕ СЂРѕСЃС‚РєР° РІ С†РµРЅС‚СЂ "РєР»РµС‚РєРё". Р’ РґРІР° СЌС‚Р°РїР° РґР»СЏ РѕРєСЂСѓРіР»РµРЅРёСЏ
 	int x2 = x1 * CageSize + CageSize / 2;
 	int y1 = y / CageSize;
 	int y2 = y1 * CageSize + CageSize / 2;
@@ -155,17 +155,20 @@ void HelloWorld::FlowerSpawn(Vector <Sprite*>& SeedSprites, int x, int y)
 
 void HelloWorld::SnakeSpawn(std::vector<Vector<Sprite*>>& SnakesSprites, Vector <Sprite*> SeedSprites)
 {
-	auto SnakeHead = Sprite::create("snake_head.png");						//Создание Змеи 
+	auto FantomSnakeHead = Sprite::create("snake_head.png");				//Р¤Р°РЅС‚РѕРјРЅР°СЏ РіРѕР»РѕРІР° - РґР»СЏ РёР·Р±РµР¶Р°РЅРёСЏ РєРѕР»Р»РёР·РёР№
+	auto SnakeHead = Sprite::create("snake_head.png");						//РЎРѕР·РґР°РЅРёРµ Р—РјРµРё 
 	if (SnakeHead == nullptr) { problemLoading("'snake_head.png'"); }
 	int Sx;
 	int Sy;
 	do{
 		Sx = CageSize * (rand() % (CageWidth - 1) + 1) + CageSize / 2;
-		Sy = CageSize * (rand() % (CageHeigth - 1) + 1) + CageSize / 2;					//Случайная позиция 	
-	} while (!HelloWorld::FreeSpace(SnakesSprites, SeedSprites, Sx, Sy));	//Проверка свободна ли позиция
+		Sy = CageSize * (rand() % (CageHeigth - 1) + 1) + CageSize / 2;					//РЎР»СѓС‡Р°Р№РЅР°СЏ РїРѕР·РёС†РёСЏ 	
+	} while (!HelloWorld::FreeSpace(SnakesSprites, SeedSprites, Sx, Sy));	//РџСЂРѕРІРµСЂРєР° СЃРІРѕР±РѕРґРЅР° Р»Рё РїРѕР·РёС†РёСЏ
 	SnakeHead->setPosition(Sx, Sy);	
+	FantomSnakeHead->setPosition(Sx, Sy);
 	addChild(SnakeHead);
 	Vector <Sprite*> Snake;
+	Snake.pushBack(FantomSnakeHead);
 	Snake.pushBack(SnakeHead);
 	SnakesSprites.push_back(Snake);
 	SnakeGrow(SnakesSprites, SeedSprites, SnakesSprites.size()-1);
@@ -173,7 +176,7 @@ void HelloWorld::SnakeSpawn(std::vector<Vector<Sprite*>>& SnakesSprites, Vector 
 
 void HelloWorld::SnakeGrow(std::vector<Vector<Sprite*>>& SnakesSprites, Vector <Sprite*> SeedSprites, int SnakeNumber)
 {
-	if ((SnakesSprites.at(SnakeNumber).size() < 5) || ((SnakesSprites.at(SnakeNumber).size() < 10) && (SeedSprites.size() >= 2)))	//Проверка длины змейки, если длиннее 5/10 - не растёт
+	if ((SnakesSprites.at(SnakeNumber).size() < 5) || ((SnakesSprites.at(SnakeNumber).size() < 10) && (SeedSprites.size() >= 2)))	//РџСЂРѕРІРµСЂРєР° РґР»РёРЅС‹ Р·РјРµР№РєРё, РµСЃР»Рё РґР»РёРЅРЅРµРµ 5/10 - РЅРµ СЂР°СЃС‚С‘С‚
 	{
 		int PreviousX = SnakesSprites.at(SnakeNumber).back()->getPositionX();
 		int PreviousY = SnakesSprites.at(SnakeNumber).back()->getPositionY();
@@ -182,36 +185,36 @@ void HelloWorld::SnakeGrow(std::vector<Vector<Sprite*>>& SnakesSprites, Vector <
 		int RandomStart = rand() % 4;
 		int RandomNext;
 		int i;
-		for (i = 0; i < 4; i++)																					//Цикл ищет свободное место под хвост по часовой стрелке, начиная со случайного
+		for (i = 0; i < 4; i++)																					//Р¦РёРєР» РёС‰РµС‚ СЃРІРѕР±РѕРґРЅРѕРµ РјРµСЃС‚Рѕ РїРѕРґ С…РІРѕСЃС‚ РїРѕ С‡Р°СЃРѕРІРѕР№ СЃС‚СЂРµР»РєРµ, РЅР°С‡РёРЅР°СЏ СЃРѕ СЃР»СѓС‡Р°Р№РЅРѕРіРѕ
 		{
 			RandomNext = (RandomStart + i) % 4;
-			if ((RandomNext == 0) && (FreeSpace(SnakesSprites, SeedSprites, NextX - CageSize, NextY)))			//Слева
+			if ((RandomNext == 0) && (FreeSpace(SnakesSprites, SeedSprites, NextX - CageSize, NextY)))			//РЎР»РµРІР°
 			{
 				NextX -= CageSize;
 				i = 4;
 			}
 			else
-			if ((RandomNext == 1) && (FreeSpace(SnakesSprites, SeedSprites, NextX, NextY + CageSize)))			//Сверху
+			if ((RandomNext == 1) && (FreeSpace(SnakesSprites, SeedSprites, NextX, NextY + CageSize)))			//РЎРІРµСЂС…Сѓ
 			{
 				NextY += CageSize;
 				i = 4;
 			}
 			else
-			if ((RandomNext == 2) && (FreeSpace(SnakesSprites, SeedSprites, NextX + CageSize, NextY)))			//Справа
+			if ((RandomNext == 2) && (FreeSpace(SnakesSprites, SeedSprites, NextX + CageSize, NextY)))			//РЎРїСЂР°РІР°
 			{
 				NextX += CageSize;
 				i = 4;
 			}
 			else
-			if ((RandomNext == 3) && (FreeSpace(SnakesSprites, SeedSprites, NextX, NextY - CageSize)))			//Снизу
+			if ((RandomNext == 3) && (FreeSpace(SnakesSprites, SeedSprites, NextX, NextY - CageSize)))			//РЎРЅРёР·Сѓ
 			{
 				NextY -= CageSize;
 				i = 4;
 			}																							
 		}
-		if (i == 5)					//Если i !=5 значит свободного места для хвоста нет
+		if (i == 5)					//Р•СЃР»Рё i !=5 Р·РЅР°С‡РёС‚ СЃРІРѕР±РѕРґРЅРѕРіРѕ РјРµСЃС‚Р° РґР»СЏ С…РІРѕСЃС‚Р° РЅРµС‚
 		{ 
-			auto SnakeTaill = Sprite::create("snake_part.png");						//Создание змеиного хвоста 
+			auto SnakeTaill = Sprite::create("snake_part.png");						//РЎРѕР·РґР°РЅРёРµ Р·РјРµРёРЅРѕРіРѕ С…РІРѕСЃС‚Р° 
 			if (SnakeTaill == nullptr) { problemLoading("'snake_part.png'"); }
 
 			SnakeTaill->setPosition(NextX, NextY);
@@ -232,7 +235,7 @@ bool HelloWorld::NotSoFreeSpace(std::vector<Vector<Sprite*>> SnakesSprites, Vect
 	int yS;
 	int i;
 	int j;
-	for (i = 0; i < SnakesSprites.size(); i++)		//Должно не дать змее ползти поверх другоой змеи
+	for (i = 0; i < SnakesSprites.size(); i++)		//Р”РѕР»Р¶РЅРѕ РЅРµ РґР°С‚СЊ Р·РјРµРµ РїРѕР»Р·С‚Рё РїРѕРІРµСЂС… РґСЂСѓРіРѕРѕР№ Р·РјРµРё
 	{
 		for (j = 0; j < SnakesSprites.at(i).size(); j++) {
 			xS = SnakesSprites.at(i).at(j)->getPositionX();
@@ -253,63 +256,63 @@ void HelloWorld::SnakeMove(std::vector<Vector<Sprite*>>& SnakesSprites, Vector <
 	int RandomStart = rand() % 4;
 	int RandomNext;
 	int i;
-	for (i = 0; i < 4; i++)																					//Цикл ищет свободное место для головы по часовой стрелке, начиная со случайного
-	{																										//Четыре напраления, поскольку змее можно убрать всё кроме головы
+	for (i = 0; i < 4; i++)																					//Р¦РёРєР» РёС‰РµС‚ СЃРІРѕР±РѕРґРЅРѕРµ РјРµСЃС‚Рѕ РґР»СЏ РіРѕР»РѕРІС‹ РїРѕ С‡Р°СЃРѕРІРѕР№ СЃС‚СЂРµР»РєРµ, РЅР°С‡РёРЅР°СЏ СЃРѕ СЃР»СѓС‡Р°Р№РЅРѕРіРѕ
+	{																										//Р§РµС‚С‹СЂРµ РЅР°РїСЂР°Р»РµРЅРёСЏ, РїРѕСЃРєРѕР»СЊРєСѓ Р·РјРµРµ РјРѕР¶РЅРѕ СѓР±СЂР°С‚СЊ РІСЃС‘ РєСЂРѕРјРµ РіРѕР»РѕРІС‹
 		RandomNext = (RandomStart + i) % 4;
-		if ((RandomNext == 0) && (NotSoFreeSpace(SnakesSprites, SeedSprites, NextX - CageSize, NextY)))			//Слева
+		if ((RandomNext == 0) && (NotSoFreeSpace(SnakesSprites, SeedSprites, NextX - CageSize, NextY)))			//РЎР»РµРІР°
 		{
 			NextX -= CageSize;
 			i = 4;
 		}
 		else
-			if ((RandomNext == 1) && (NotSoFreeSpace(SnakesSprites, SeedSprites, NextX, NextY + CageSize)))			//Сверху
+			if ((RandomNext == 1) && (NotSoFreeSpace(SnakesSprites, SeedSprites, NextX, NextY + CageSize)))			//РЎРІРµСЂС…Сѓ
 			{
 				NextY += CageSize;
 				i = 4;
 			}
 			else
-				if ((RandomNext == 2) && (NotSoFreeSpace(SnakesSprites, SeedSprites, NextX + CageSize, NextY)))			//Справа
+				if ((RandomNext == 2) && (NotSoFreeSpace(SnakesSprites, SeedSprites, NextX + CageSize, NextY)))			//РЎРїСЂР°РІР°
 				{
 					NextX += CageSize;
 					i = 4;
 				}
 				else
-					if ((RandomNext == 3) && (NotSoFreeSpace(SnakesSprites, SeedSprites, NextX, NextY - CageSize)))			//Снизу
+					if ((RandomNext == 3) && (NotSoFreeSpace(SnakesSprites, SeedSprites, NextX, NextY - CageSize)))			//РЎРЅРёР·Сѓ
 					{
 						NextY -= CageSize;
 						i = 4;
 					}
 	}
-	if (i == 5)					//Если i !=5 значит свободного места для хвоста нет cвободного места
+	if (i == 5)					//Р•СЃР»Рё i !=5 Р·РЅР°С‡РёС‚ СЃРІРѕР±РѕРґРЅРѕРіРѕ РјРµСЃС‚Р° РґР»СЏ С…РІРѕСЃС‚Р° РЅРµС‚ cРІРѕР±РѕРґРЅРѕРіРѕ РјРµСЃС‚Р°
 	{
 		
+		int x1 = NextX / CageSize;
+		int x = x1 * CageSize + CageSize / 2;
+		int y1 = NextY / CageSize;
+		int y = y1 * CageSize + CageSize / 2;
+		SnakesSprites.at(SnakeNumber).at(0)->setPosition(x, y);				//"Р¤Р°РЅС‚РѕРјРЅР°СЏ" С‡Р°СЃС‚СЊ Р·РјРµРёРё РјРіРЅРѕРІРµРЅРЅ Р·Р°РЅРёРјР°РµС‚ РЅРѕРІСѓСЋ РїРѕР·РёС†РёСЋ. РџРѕСЃРєРѕР»СЊРєСѓ Р·РјРµРё РёС‰СѓС‚ С‚РѕС‡РєСѓ РґР»СЏ РїРµСЂРµРјРµС€РµРЅРёСЏ РІ С†РёРєР»Рµ - СЌС‚Рѕ РЅРµ РґР°С‘С‚ РґРІСѓРј Р·РјРµСЏРј СЃС‚РѕР»РєРЅСѓС‚СЊСЃСЏ
+
+
 		for (int j = SnakesSprites.at(SnakeNumber).size()-1; j > 0; j--)
 		{
 			int x1 = SnakesSprites.at(SnakeNumber).at(j - 1)->getPositionX() / CageSize;
 			int x = x1 * CageSize + CageSize / 2;
 			int y1 = SnakesSprites.at(SnakeNumber).at(j - 1)->getPositionY() / CageSize;
 			int y = y1 * CageSize + CageSize / 2;
-			auto Move = MoveTo::create(MoveTime, Vec2(x, y));
-			SnakesSprites.at(SnakeNumber).at(j)->runAction(Move);
+			auto MoveTo = MoveTo::create(MoveTime, Vec2(x, y));
+			SnakesSprites.at(SnakeNumber).at(j)->runAction(MoveTo);
 		}
 		
-		int x1 = NextX / CageSize;
-		int x = x1 * CageSize + CageSize / 2;
-		int y1 = NextY / CageSize;
-		int y = y1 * CageSize + CageSize / 2;
-		auto Move = MoveTo::create(MoveTime, Vec2(x, y));
-		SnakesSprites.at(SnakeNumber).at(0)->runAction(Move);
-
-		for (int j = 0; j < SeedSprites.size(); j++)		//Проверка на контакт с цветком
+		for (int j = 0; j < SeedSprites.size(); j++)		//РџСЂРѕРІРµСЂРєР° РЅР° РєРѕРЅС‚Р°РєС‚ СЃ С†РІРµС‚РєРѕРј
 		{
 			int xS = SeedSprites.at(j)->getPositionX();
 			int yS = SeedSprites.at(j)->getPositionY();
-			if ((abs(NextX - xS) < CageSize/2) && (abs(NextY - yS) < CageSize/2))	//Змея ест цветок с меньшего растояния, чем избегает других змей
+			if ((abs(NextX - xS) < CageSize/2) && (abs(NextY - yS) < CageSize/2))	//Р—РјРµСЏ РµСЃС‚ С†РІРµС‚РѕРє СЃ РјРµРЅСЊС€РµРіРѕ СЂР°СЃС‚РѕСЏРЅРёСЏ, С‡РµРј РёР·Р±РµРіР°РµС‚ РґСЂСѓРіРёС… Р·РјРµР№
 			{
 				removeChild(SeedSprites.at(j));
 				SeedSprites.erase(j);
 				DoubleSpeed();
-				j = SeedSprites.size(); //Потому что не может быть двух цветков на одном месте
+				j = SeedSprites.size(); //РџРѕС‚РѕРјСѓ С‡С‚Рѕ РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РґРІСѓС… С†РІРµС‚РєРѕРІ РЅР° РѕРґРЅРѕРј РјРµСЃС‚Рµ
 			}
 		}
 	}
@@ -323,7 +326,7 @@ int HelloWorld::SnakeClick(std::vector<Vector<Sprite*>> SnakesSprites, int x, in
 
 	int xS;
 	int yS;
-	for (int i = 0; i < SnakesSprites.size(); i++)		//Проверка клика по змее
+	for (int i = 0; i < SnakesSprites.size(); i++)		//РџСЂРѕРІРµСЂРєР° РєР»РёРєР° РїРѕ Р·РјРµРµ
 	{
 		for (int j = 0; j < SnakesSprites.at(i).size(); j++) {
 			xS = SnakesSprites.at(i).at(j)->getPositionX();
@@ -363,7 +366,7 @@ void HelloWorld::TimerSnakeSpawn(int Time)
 void HelloWorld::TimerTen(int Time)
 {
 	//log("TenSecundTimer");
-	SnakeSpawnInterval = SnakeSpawnInterval * 1.05;//0.95	//Согласно условию каждые 10 секунд скорость появление новых змеек уменьшается на 5%.
+	SnakeSpawnInterval = SnakeSpawnInterval * 1.05;//0.95	//РЎРѕРіР»Р°СЃРЅРѕ СѓСЃР»РѕРІРёСЋ РєР°Р¶РґС‹Рµ 10 СЃРµРєСѓРЅРґ СЃРєРѕСЂРѕСЃС‚СЊ РїРѕСЏРІР»РµРЅРёРµ РЅРѕРІС‹С… Р·РјРµРµРє СѓРјРµРЅСЊС€Р°РµС‚СЃСЏ РЅР° 5%.
 }
 
 void HelloWorld::DoubleSpeed()
@@ -374,7 +377,7 @@ void HelloWorld::DoubleSpeed()
 		scheduleOnce(SEL_SCHEDULE(&HelloWorld::NormalSpeed), 5);
 	}
 
-	if ((SeedSprites.size() == 0) && (Coins < SeedPrice))	//Проверка проиграна ли ирга (нет цветков и денег на новые)
+	if ((SeedSprites.size() == 0) && (Coins < SeedPrice))	//РџСЂРѕРІРµСЂРєР° РїСЂРѕРёРіСЂР°РЅР° Р»Рё РёСЂРіР° (РЅРµС‚ С†РІРµС‚РєРѕРІ Рё РґРµРЅРµРі РЅР° РЅРѕРІС‹Рµ)
 	{
 		auto GameOverScene = GameOver::createScene();
 	
